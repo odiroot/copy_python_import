@@ -1,16 +1,20 @@
-CopyPythonPath
-================
-A Sublime Text plugin.
+# Copy Python Import
 
-Puts python path of the currently selected python module, class or classmethod to the clipboard.
+A Sublime Text package.
 
-Install
-=======
+Puts the ready-made import statement for the current module, class or function 
+in the clipboard.
+
+Forked from [pokidovea/copy_python_path](https://github.com/pokidovea/copy_python_path)
+
+# Install
+
 
 The easiest way to install this is with [Package Control](http://wbond.net/sublime_packages/package_control).
 
-Usage
-=====
-
-To copy the python import path of the module select an option from the context menu of side bar or tab.
-To copy the path of the python class or method put caret on it and press <kbd>Ctrl+Shift+K</kbd> or `right-click` and select an option from the context menu.
+# Usage
+To copy the import line of the module select an option from the context menu of 
+side bar or tab.
+To copy the import line of the python class or method put caret on it and press 
+<kbd>Ctrl+Alt+I</kbd> or `right-click` and select an option from the context 
+menu.
