@@ -1,0 +1,35 @@
+[project]
+name = "copy-python-import"
+version = "0.1.0"
+description = "Sublime Text plugin: Copy Python import statement."
+readme = "README.md"
+dependencies = []
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = [
+    # https://docs.astral.sh/ruff/rules
+    "F", # Pyflakes (flake8).
+    "E", # pycodestyle errors (flake8).
+    "W", # pycodestyle warnings (flake8).
+    "I", # isort
+    "T10", # flake8-debugger (pdb/ipdb detection)
+    "T20", # flake8-print
+    "Q004", # flake8-quotes (unnecessary-escaped-quote).
+]
+
+ignore = [
+    # https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "W191", # tab-indentation
+    "E111", # indentation-with-invalid-multiple
+    "E114", # indentation-with-invalid-multiple-comment
+    "E117", # over-indented
+]
+
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+docstring-code-line-length = 79

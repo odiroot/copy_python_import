@@ -1,7 +1,0 @@
-[
-    { "caption": "-" },
-    {
-        "command": "copy_python_import",
-        "caption": "Copy Python Import"
-    }
-]
