@@ -93,8 +93,10 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
                     )
                     path_items.append(class_name)
                 else:
-                    # Just nested function.
-                    path_items.append(method_name)
+                    # This is a nested function, which can't be imported.
+                    # By leaving this 'else' block empty, we ensure no
+                    # invalid import is created for it.
+                    pass
             else:
                 path_items.append(method_name)
 
