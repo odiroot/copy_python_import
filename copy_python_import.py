@@ -42,14 +42,11 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
             sublime.status_message("Cannot determine module path.")
             return
 
-
-        module_part = '.'.join(module_path)
+        module_part = ".".join(module_path)
 
         if symbol_path:
-            symbol_part = '.'.join(symbol_path)
-            statement = "from %s import %s" % (
-                module_part, symbol_part
-            )
+            symbol_part = ".".join(symbol_path)
+            statement = "from %s import %s" % (module_part, symbol_part)
         else:
             statement = "import %s" % (module_part)
 
@@ -58,7 +55,10 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
         sublime.status_message('"%s" copied to clipboard' % statement)
 
     def _get_symbol_path_items(self):
-        """Determines the symbol (class/function) at the cursor."""
+        """
+        Determines the symbol (class/function) at the cursor, or the class
+        containing the cursor.
+        """
         caret_point = self.view.sel()[0].begin()
         scope = self.view.scope_name(caret_point)
         path_items = []
@@ -69,15 +69,9 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
             else "entity.name.type.class.python"
         )
 
-        # Case 1: Cursor is on a class definition
-        if class_entity in scope:
-            path_items.append(self.view.substr(self.view.word(caret_point)))
-
-        # Case 2: Cursor is on a function/method definition
-        elif "entity.name.function.python" in scope:
+        # Priority 1: Cursor is on a function/method name.
+        if "entity.name.function.python" in scope:
             method_name = self.view.substr(self.view.word(caret_point))
-
-            # If indented, it's a method, so find the parent class.
             if self.view.indentation_level(caret_point) > 0:
                 regions = self.view.find_by_selector(class_entity)
                 possible_class_point = 0
@@ -86,19 +80,43 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
                         possible_class_point = region.a
                     else:
                         break
-
                 if possible_class_point > 0:
                     class_name = self.view.substr(
                         self.view.word(possible_class_point)
                     )
                     path_items.append(class_name)
                 else:
-                    # This is a nested function, which can't be imported.
-                    # By leaving this 'else' block empty, we ensure no
-                    # invalid import is created for it.
-                    pass
+                    pass  # Nested function, do nothing.
             else:
                 path_items.append(method_name)
+            return path_items
+
+        # Priority 2: Cursor is directly on a class name.
+        if class_entity in scope:
+            path_items.append(self.view.substr(self.view.word(caret_point)))
+            return path_items
+
+        # Priority 3: Try to find a containing class.
+        # Find the last class definition that starts before the cursor.
+        class_name_regions = self.view.find_by_selector(class_entity)
+        possible_class_point = 0
+        for region in class_name_regions:
+            if region.a < caret_point:
+                possible_class_point = region.a
+            else:
+                break  # We've gone past the cursor
+
+        if possible_class_point > 0:
+            # Guess: if cursor is more indented than the class, it's inside.
+            class_indent = self.view.indentation_level(possible_class_point)
+            cursor_indent = self.view.indentation_level(caret_point)
+
+            if cursor_indent > class_indent:
+                class_name = self.view.substr(
+                    self.view.word(possible_class_point)
+                )
+                path_items.append(class_name)
+                return path_items
 
         return path_items
 
