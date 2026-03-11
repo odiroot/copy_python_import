@@ -1,4 +1,5 @@
 import os
+import re
 
 import sublime
 import sublime_plugin
@@ -8,6 +9,9 @@ CLASS_NAME_SELECTORS = (
     "entity.name.type.class.python",
 )
 FUNCTION_NAME_SELECTOR = "entity.name.function.python"
+TOP_LEVEL_CONSTANT_PATTERN = re.compile(
+    r"^(?P<name>[A-Z][A-Z0-9_]*)\s*(?::[^=\n]+)?="
+)
 
 
 def _get_module_path(file_name):
@@ -79,6 +83,30 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
 
         return self.view.substr(self.view.word(possible_class_point))
 
+    def _get_top_level_constant_name(self, point):
+        if self.view.indentation_level(point) != 0:
+            return None
+
+        word_region = self.view.word(point)
+        candidate = self.view.substr(word_region)
+        if not candidate or not candidate.isupper():
+            return None
+
+        line_region = self.view.line(point)
+        line_text = self.view.substr(line_region)
+        match = TOP_LEVEL_CONSTANT_PATTERN.match(line_text)
+        if not match or match.group("name") != candidate:
+            return None
+
+        constant_region = sublime.Region(
+            line_region.a + match.start("name"),
+            line_region.a + match.end("name"),
+        )
+        if word_region != constant_region:
+            return None
+
+        return candidate
+
     def run(self, edit):
         # Get the base module path from the file's location.
         module_path = _get_module_path(self.view.file_name())
@@ -144,6 +172,12 @@ class CopyPythonImportCommand(sublime_plugin.TextCommand):
         class_name = self._find_containing_class_name(caret_point)
         if class_name:
             path_items.append(class_name)
+            return path_items
+
+        # Priority 4: Cursor is on a top-level constant assignment.
+        constant_name = self._get_top_level_constant_name(caret_point)
+        if constant_name:
+            path_items.append(constant_name)
             return path_items
 
         return path_items
