@@ -1,0 +1,29 @@
+[
+	{
+		"id": "preferences",
+		"children":
+		[
+			{
+				"caption": "Package Settings",
+				"mnemonic": "P",
+				"id": "package-settings",
+				"children":
+				[
+					{
+                        "caption": "Copy Python Import",
+                        "children": [
+                            {
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "${packages}/copy_python_import/Default ($platform).sublime-keymap",
+                                    "default": "[\n\t{ \"keys\": [\"ctrl+alt+i\"], \"command\": \"copy_python_import\" }\n]\n"
+                                },
+                                "caption": "Key Bindings"
+                            }
+                        ]
+					}
+				]
+			}
+		]
+	}
+]

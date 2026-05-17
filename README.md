@@ -67,29 +67,27 @@ to import.
 
 Then either:
 
-1. press <kbd>Ctrl+Alt+I</kbd> (default) on your keyboard,
-2. right click to open menu the context menu and click _Copy Python Import_.
+1. Open the _Command Palette_ and search for **Copy Python Import**.
+2. Right click to open the context menu and click **Copy Python Import**.
+3. Use a custom key binding (see [Configuration](#configuration)).
 
 # Configuration
 
-These are the default key bindings to copy the import:
+To comply with Sublime Text package guidelines, default key bindings are provided but **disabled** by default.
 
-* <kbd>Ctrl+Alt+I</kbd> on Linux and Windows.
-* <kbd>Super+Option+I</kbd> on Mac OS X.
+To enable or customize them:
 
-You configure your own preferred key binding with _Preferences_ → _Key Bindings_
-in Sublime Text menu. The command for this extension is called `copy_python_import`.
+1. Go to **Preferences** → **Package Settings** → **Copy Python Import** → **Key Bindings**.
+2. Copy the suggested binding from the left pane (the default file) to the right pane (your user settings).
+3. Adjust the `keys` if desired and save.
 
-Example:
+### Example Key Binding
 
 ```json
 [
     { "keys": ["ctrl+alt+i"], "command": "copy_python_import" }
 ]
-
 ```
-
-
 
 # Disclaimer
 
