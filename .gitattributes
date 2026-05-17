@@ -1,0 +1,5 @@
+tests/ export-ignore
+unittesting.json export-ignore
+.gitignore export-ignore
+pyproject.toml export-ignore
+.ruff_cache/ export-ignore
