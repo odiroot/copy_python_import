@@ -1,6 +1,6 @@
 [project]
 name = "copy-python-import"
-version = "0.3.1"
+version = "0.3.2"
 description = "Sublime Text plugin: Copy Python import statement."
 readme = "README.md"
 dependencies = []
