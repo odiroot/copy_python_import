@@ -24,9 +24,18 @@ always works.
 
 # Install
 
+## Via Package Control (recommended)
+
+1. Open _Command Palette_ (<kbd>Ctrl+Shift+P</kbd>).
+2. Select **Package Control: Install Package**.
+3. Search for **Copy Python Import** and press <kbd>Enter</kbd>.
+
+The package will be installed and kept up-to-date automatically.
+
+## Manual installation
+
 > [!NOTE]
-> Installation from the [Package Control](http://wbond.net/sublime_packages/package_control) 
-> extension is not yet possible at this moment. Work in progress.
+> Use this if Package Control is not available in your setup.
 
 First find your Sublime Text packages directory. 
 You can use the built in command:
@@ -39,7 +48,7 @@ You can use the built in command:
 
 Now you have a few options to proceed.
 
-## With Git
+### With Git
 
 1. Open a shell and navigate to the aforementioned packages directory.
 2. Run:
@@ -52,7 +61,7 @@ Now you have a few options to proceed.
 > You can always update to the newest version by running `git pull`
 > from inside of that `copy_python_import` directory.
 
-## From a download
+### From a download
 
 1. Open the [releases](https://github.com/odiroot/copy_python_import/releases) page.
 2. Download _Source code (zip)_ for the newest release.
